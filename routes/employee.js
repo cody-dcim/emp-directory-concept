@@ -51,6 +51,21 @@ exports.findAll = function(req, res) {
         }
     });
 };
+
+exports.search = function(req, res) {
+    var q = req.query["q"];
+    db.collection('employees', function(err, collection) {
+        if (name) {
+            collection.find({"fullName": new RegExp(name, "i")}).toArray(function(err, items) {
+                res.jsonp(items);
+            });
+        } else {
+            collection.find().toArray(function(err, items) {
+                res.jsonp(items);
+            });
+        }
+    });
+};
  
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.

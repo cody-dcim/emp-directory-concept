@@ -12,6 +12,74 @@
 
  */
 
+directory.Employee = Backbone.Model.extend({
+
+//    urlRoot:"/directory-rest-php/employees",
+    urlRoot:"http://localhost:3000/employees",
+
+    initialize:function () {
+        this.reports = new directory.EmployeeCollection();
+        this.reports.url = this.urlRoot + "/" + this.id + "/reports";
+    }
+
+});
+
+
+
+directory.EmployeeCollection = Backbone.Collection.extend({
+
+    model: directory.Employee,
+
+//    url:"/directory-rest-php/employees"
+    url: "http://localhost:3000/employees",
+
+    intialize: function() {
+        console.log("Employee Collection created");
+    },
+
+    search: function(searchTerm){
+    var results = new directory.EmployeeCollection();
+    results.fetch({
+      success: function(data){
+        console.log('Searching the Employee Collection for: ' + searchTerm + '\n' + data.toJSON());
+        console.log('Ajax URL: ' + "http://localhost:3000/employees");
+        // store reference for this collection
+        var collection = data;
+        $.ajax({
+            type : 'GET',
+            url : "http://localhost:3000/employees",
+            dataType : 'json',
+            success : function(data) {
+                console.log(data);
+                // set collection data (assuming you have retrieved a json object)
+                collection.reset(data)
+                var employees = collection.filter(function (element) {
+                    var fullName = element.get('firstName') + " " + element.get('lastName');
+                    var fullName1 = element.get('fullName');
+                    return (fullName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 || element.get('title').toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+                });
+                collection = employees;
+                
+                return collection;
+            }
+        });
+/*
+        var employees = data.filter(function (element) {
+            var fullName = element.get('firstName') + " " + element.get('lastName');
+            var fullName1 = element.get('fullName');
+            return (fullName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 || element.get('title').toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+        });
+*/
+        //console.log(employees);
+      },
+      error: function(data){
+        console.log("error occurred during search");
+      }
+    }); 
+  }
+
+});
+
 /*
     directory.Employee = Backbone.Model.extend({
 
@@ -34,6 +102,7 @@
 
     });
 */
+/*
 
 directory.Employee = Backbone.Model.extend({
 
@@ -54,19 +123,18 @@ directory.Employee = Backbone.Model.extend({
 
 });
 
+
 directory.EmployeeCollection = Backbone.Collection.extend({
 
     model: directory.Employee,
 
     url:"http://localhost:3000/employees",
 
-    sync: function(method, model, options) {
-        console.log('Syncing Employee Collection...');
-        if (method === "read") {
-            directory.store.fullSearch(options.data.q, function (data) {
-                options.success(data);
-            });
-        }
+    search: function(searchKey, options) {
+        console.log("Searching for employees");
+        directory.store.fullSearch(searchKey, function (data) {
+            options.success(data);
+        });
     }
 
 });
@@ -74,7 +142,7 @@ directory.EmployeeCollection = Backbone.Collection.extend({
 directory.MemoryStore = function (successCallback, errorCallback) {
 
     this.findByName = function (searchKey, callback) {
-        var employees = this.employees.filter(function (element) {
+        var employees = employeesList.filter(function (element) {
             var fullName = element.firstName + " " + element.lastName;
             return fullName.toLowerCase().indexOf(searchKey.toLowerCase()) > -1;
         });
@@ -82,24 +150,25 @@ directory.MemoryStore = function (successCallback, errorCallback) {
     };
 
     this.findByManager = function (managerId, callback) {
-        var employees = this.employees.filter(function (element) {
+        var employees = employeesList.filter(function (element) {
             return managerId === element.managerId;
         });
         callLater(callback, employees);
     };
 
     this.fullSearch = function(searchKey, callback) {
-        this.employees = new directory.EmployeeCollection();
-        console.log('Searching the Employee Collection for: ' + searchKey + '\n' + this.employees);
-        var employees = this.employees.filter(function (element) {
-            var fullName = element.firstName + " " + element.lastName;
-            return (fullName.toLowerCase().indexOf(searchKey.toLowerCase()) > -1 || element.title.toLowerCase().indexOf(searchKey.toLowerCase()) > -1);
+        console.log('Searching the Employee Collection for: ' + searchKey + '\n' + employeesList.toJSON());
+        var employees = employeesList.filter(function (element) {
+            var fullName = element.get('firstName') + " " + element.get('lastName');
+            var fullName1 = element.get('fullName');
+            return (fullName.toLowerCase().indexOf(searchKey.toLowerCase()) > -1 || element.get('title').toLowerCase().indexOf(searchKey.toLowerCase()) > -1);
         });
+        console.log("Results found: " + employeesList.toJSON());
         callLater(callback, employees);
     };
 
     this.findById = function (id, callback) {
-        var employees = this.employees;
+        var employees = employeesList;
         var employee = null;
         var l = employees.length;
         for (var i = 0; i < l; i++) {
@@ -120,8 +189,11 @@ directory.MemoryStore = function (successCallback, errorCallback) {
         }
     };
 
-
     callLater(successCallback);
 
-}
-directory.store = new directory.MemoryStore();
+};
+*/
+
+//directory.store = new directory.MemoryStore();
+//var employeesList = new directory.EmployeeCollection();
+//employeesList.fetch();
