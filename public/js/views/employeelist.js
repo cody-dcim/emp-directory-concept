@@ -7,6 +7,7 @@ directory.EmployeeListView = Backbone.View.extend({
     initialize:function () {
         var self = this;
         this.model.on("reset", this.render, this);
+        this.model.on("change", this.render, this);
         this.model.on("add", function (employee) {
             self.$el.append(new directory.EmployeeListItemView({model:employee}).render().el);
         });
