@@ -20,14 +20,39 @@ directory.ShellView = Backbone.View.extend({
 
     search: function (event) {
         var key = $('#searchText').val();
+
         if(this.searchResults.checkKeys(key, this.prevKey)) {
-            this.searchResults.search(key);
+            // Checking for special search:
+            var keyParts = key.split(':');
+
+            if(keyParts.length > 1) {
+                switch(keyParts[0].toLowerCase()) {
+                    case "expert":
+                        this.searchResults.searchExpertise(keyParts[1].toLowerCase());
+                        break;
+                    case "department":
+                        this.searchResults.searchDepartment(keyParts[1].toLowerCase());
+                        break;
+                    case "manager":
+                        this.searchResults.searchManager(keyParts[1].toLowerCase());
+                        break;
+                    default:
+                        this.searchResults.search(key);
+                        break;
+                }
+            } else {
+                this.searchResults.search(key);
+            }
+
             var self = this;
             setTimeout(function () {
                 $('.dropdown').addClass('open');
             });
+
         }
+
         this.prevKey = key;
+
     },
 
     onkeypress: function (event) {

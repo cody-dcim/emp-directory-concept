@@ -1,38 +1,27 @@
-<p><img src="pics/<%= firstName %>_<%= lastName %>.jpg" width="160" height="160"/></p>
-<h3><%= firstName %> <%= lastName %></h3>
-<h4><%= title %></h4>
-<br>
-        <table class="table table-striped">
+    <div class="row-fluid">
+        <div class="span4">
+            <h3><%= firstName %> <%= lastName %></h3>
+            <h4>Department: <%= department %></h4>
+            <h4>Position: <%= title %></h4>
+            <p><img src="pics/<%= firstName %>_<%= lastName %>.jpg" width="160" height="160"/></p>
+        </div>
+        <div class="span8">
+            <br />
             <%
-            if (managerId)
-            {
+            if (managerId) {
             %>
-            <tr>
-                <td>Manager:</td>
-                <td><i class="icon-user"></i> <a href='#employees/<%= managerId %>'><%= managerName %></a></td>
-            </tr>
+            <p>Manager: <a href='#employees/<%= managerId %>'><%= managerName %></a></p>
             <%
             }
             %>
-            <tr>
-                <td>Office Phone:</td>
-                <td><i class="icon-home"></i> <%= officePhone %></td>
-            </tr>
-            <tr>
-                <td>Cell Phone:</td>
-                <td><i class="icon-headphones"></i> <%= cellPhone %></td>
-            </tr>
-            <tr>
-                <td>Email:</td>
-                <td><i class="icon-envelope"></i> <a href="mailto:<%= email %>"><%= email %></a></td>
-            </tr>
-            <tr>
-                <td>Twitter:</td>
-                <td><i class="icon-retweet"></i> <a href=""><%= twitterId %></a></td>
-            </tr>
-        </table>
-
-        <div class="alert alert-warning">
-          <h4 class="alert-heading">Warning</h4>
-          The phone numbers, email addresses, and Twitter handlers are fake.
+            <p>Office: <%= city %>, <%= state %>, <%= country %></p>
+            <p>Office Phone: <%= officePhone %></p>
+            <p>Cell Phone: <%= cellPhone %></p>
+            <p>Email: <%= email %></p>
+            <p>Twitter: <a href="http://www.twitter.com/<%= twitterId %>"><%= twitterId %></a></p>
+            <p>Blog: <a href="<%= blog %>"><%= blog %></a></p>
+            <p>LinkedIn: <a href="<%= linkedInURL %>"><%= linkedInURL %></a></p>
+            <br />
+            <p>Expertise: <%= expertise %></p>
         </div>
+    </div>
