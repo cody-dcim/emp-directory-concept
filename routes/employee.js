@@ -13,7 +13,7 @@ mongoClient.open(function(err, mongoClient) {
     });
 });
 
- 
+
 exports.findById = function(req, res) {
     console.log(req.params);
     var id = parseInt(req.params.id);
@@ -22,6 +22,24 @@ exports.findById = function(req, res) {
         collection.findOne({'id': id}, function(err, item) {
             console.log(item);
             res.jsonp(item);
+        });
+    });
+};
+
+exports.findManager = function(req, res) {
+    console.log(req.params);
+    var id = parseInt(req.params.id);
+    console.log('findById: ' + id);
+    db.collection('employees', function(err, collection) {
+        collection.findOne({'id': id}, function(err, item) {
+            if(item.managerId > 0) {
+                collection.find({'id': item.managerId}).toArray(function(err, mgrs) {
+                    console.log(mgrs);
+                    res.jsonp(mgrs);
+                });
+            } else {
+                res.jsonp(item);
+            }
         });
     });
 };
@@ -64,6 +82,58 @@ exports.search = function(req, res) {
                 res.jsonp(items);
             });
         }
+    });
+};
+
+exports.addEmployee = function(req, res) {
+    var employee = req.body;
+    console.log('Adding Employee: ' + JSON.stringify(employee));
+    
+    db.collection('employees', function(err, collection) {
+        collection.insert(employee, {safe:true}, function(err, result) {
+            if (err) {
+                res.jsonp({'error':'An error has occurred'});
+            } else {
+                console.log('Success: ' + JSON.stringify(result[0]));
+                res.jsonp(result[0]);
+            }
+        });
+    });
+};
+
+exports.updateEmployee = function(req, res) {
+    var id = parseInt(req.params.id);
+    console.log('Updating employee: ' + id);
+    console.log(req.body);
+    var employee = req.body;
+    delete employee._id;
+    console.log(JSON.stringify(employee));
+    db.collection('employees', function(err, collection) {
+        collection.update({'id': id}, employee, {safe:true}, function(err, result) {
+            if (err) {
+                console.log('Error updating employee: ' + err);
+                res.jsonp({'error':'An error has occurred'});
+            } else {
+                console.log('' + result + ' document(s) updated');
+                res.jsonp(employee);
+            }
+        });
+    });
+};
+
+exports.deleteEmployee = function(req, res) {
+    var id = parseInt(req.params.id);
+    console.log('Deleting employee: ' + id);
+    
+    db.collection('employees', function(err, collection) {
+        collection.remove({'id': id}, {safe:true}, function(err, result) {
+            if (err) {
+                res.jsonp({'error':'An error has occurred - ' + err});
+            } else {
+                console.log('' + result + ' document(s) deleted');
+                res.jsonp(req.body);
+            }
+        });
     });
 };
  

@@ -1,10 +1,18 @@
 <div class="span3">
     <div id="reports" class="well">
+
+        <h3 class="modal-header">Reports To</h3>
+        <div id="manager-data"></div>
+        <div class="alert alert-info no-manager">
+            <h4 class="alert-heading">Info</h4>
+            <p><%= firstName %> <%= lastName %> does not report to anyone.</p>
+        </div>
+
         <h3 class="modal-header">Direct Reports</h3>
 
         <div class="alert alert-info no-reports">
             <h4 class="alert-heading">Info</h4>
-            <%= firstName %> <%= lastName %> has no direct reports
+            <p><%= firstName %> <%= lastName %> has no direct reports</p>
         </div>
     </div>
 </div>

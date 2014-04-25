@@ -16,7 +16,7 @@ body {
     padding-left: 56px;
 }
 
-.no-reports {
+.no-reports, .no-manager {
     display: none;
 }
 

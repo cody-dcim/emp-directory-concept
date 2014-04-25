@@ -1,27 +1,38 @@
     <div class="row-fluid">
-        <div class="span4">
-            <h3><%= firstName %> <%= lastName %></h3>
-            <h4>Department: <%= department %></h4>
-            <h4>Position: <%= title %></h4>
-            <p><img src="pics/<%= firstName %>_<%= lastName %>.jpg" width="160" height="160"/></p>
-        </div>
-        <div class="span8">
-            <br />
-            <%
-            if (managerId) {
-            %>
-            <p>Manager: <a href='#employees/<%= managerId %>'><%= managerName %></a></p>
-            <%
-            }
-            %>
-            <p>Office: <%= city %>, <%= state %>, <%= country %></p>
-            <p>Office Phone: <%= officePhone %></p>
-            <p>Cell Phone: <%= cellPhone %></p>
-            <p>Email: <%= email %></p>
-            <p>Twitter: <a href="http://www.twitter.com/<%= twitterId %>"><%= twitterId %></a></p>
-            <p>Blog: <a href="<%= blog %>"><%= blog %></a></p>
-            <p>LinkedIn: <a href="<%= linkedInURL %>"><%= linkedInURL %></a></p>
-            <br />
-            <p>Expertise: <%= expertise %></p>
-        </div>
+        <form id="employeeForm">
+            <div class="span4">
+                <h3><%= firstName %> <%= lastName %></h3>
+                <h4>Department: <%= department %></h4>
+                <h4>Position: <%= title %></h4>
+                <p><img src="pics/<%= firstName %>_<%= lastName %>.jpg" width="160" height="160"/></p>
+            </div>
+            <div class="span8">
+                <br />
+                <h5 style="margin: 0px; padding: 0px;">Office</h5>
+                <label><%= city %>, <%= state %>, <%= country %></label>
+
+                <h5 style="margin: 0px; padding: 0px;">Office Phone</h5>
+                <label><%= officePhone %></label>
+
+                <h5 style="margin: 0px; padding: 0px;">Cell Phone</h5>
+                <label class="contenteditable" contenteditable="true" id="cellPhone"><%= cellPhone %></label>
+
+                <h5 style="margin: 0px; padding: 0px;">Email</h5>
+                <label class="contenteditable" contenteditable="true" id="email"><%= email %></label>
+                
+                <h5 style="margin: 0px; padding: 0px;">Twitter</h5>
+                <label class="contenteditable" contenteditable="true" id="twitterId"><%= twitterId %></label>
+                
+                <h5 style="margin: 0px; padding: 0px;">Blog</h5>
+                <label class="contenteditable" contenteditable="true" id="blog"><%= blog %></label>
+
+                <h5 style="margin: 0px; padding: 0px;">LinkedIn</h5>
+                <label class="contenteditable" contenteditable="true" id="linkedInURL"><%= linkedInURL %></label>
+                
+                <br />
+                <h5 style="margin: 0px; padding: 0px;">Expertise</h5>
+                <label class="contenteditable" contenteditable="true" id="expertise"><%= expertise %></label>
+                <button style="display: none;">Save</button>
+            </div>
+        </form>
     </div>
