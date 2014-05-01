@@ -28,7 +28,8 @@ directory.Router = Backbone.Router.extend({
     routes: {
         "":                 "home",
         "contact":          "contact",
-        "employees/:id":    "employeeDetails"
+        "employees/:id":    "employeeDetails",
+        "admin":            "admin"
     },
 
     initialize: function () {
@@ -75,12 +76,21 @@ directory.Router = Backbone.Router.extend({
             }
         });
         directory.shellView.selectMenuItem();
+    },
+
+    admin: function () {
+        if (!directory.adminView) {
+            directory.adminView = new directory.AdminView();
+            directory.adminView.render();
+        }
+        this.$content.html(directory.adminView.el);
+        directory.shellView.selectMenuItem('admin-menu');
     }
 
 });
 
 $(document).on("ready", function () {
-    directory.loadTemplates(["HomeView", "ContactView", "ShellView", "EmployeeView", "EmployeeSummaryView", "EmployeeListItemView", "EmpExpertiseListItemView", "EmpDepartmentListItemView", "EmpManagerListItemView"],
+    directory.loadTemplates(["HomeView", "ContactView", "AdminView", "ShellView", "EmployeeView", "EmployeeSummaryView", "EmployeeListItemView", "EmpExpertiseListItemView", "EmpDepartmentListItemView", "EmpManagerListItemView", "AdminListItemView"],
         function () {
             directory.router = new directory.Router();
             Backbone.history.start();
