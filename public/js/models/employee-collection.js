@@ -14,11 +14,10 @@ directory.EmployeeCollection = directory.SearchableCollection.extend({
 	        data: '{"limit": 5}',
 	        dataType: "json",
 	        success: function(data){
-	        	var newEmployees = new directory.EmployeeCollection(data);
-	            return newEmployees;
+	            self.reset(data);
 	        },
 	        error: function(jqXHR, textStatus, errorThrown){
-	            console.log("FETCH FAILED: " + errorThrown);
+	            console.log("Failed to retrieve newest employees: " + errorThrown);
 	        }
 	    });
 	}
