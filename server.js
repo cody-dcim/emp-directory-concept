@@ -10,6 +10,7 @@ app.use(app.router);
 app.get('/employees/:id/reports', employees.findByManager);
 app.get('/employees/:id/manager', employees.findManager);
 app.get('/employees', employees.findAll);
+app.get('/employees/newest', employees.findNewest);
 
 app.post('/employees', employees.addEmployee);
 app.put('/employees/:id', employees.updateEmployee);

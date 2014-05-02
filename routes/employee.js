@@ -137,6 +137,23 @@ exports.deleteEmployee = function(req, res) {
     });
 };
  
+exports.findNewest = function(req, res) {
+    var numResults = parseInt(req.query.limit) || 10;
+    console.log('Finding the ' + numResults + ' newest employees');
+    
+    db.collection('employees', function(err, collection) {
+        collection.find().sort('dateCreated', 'descending').limit(numResults).toArray(function(err, items) {
+            if (err) {
+                console.log('An error has occurred - ' + err);
+                res.jsonp({'error':'An error has occurred - ' + err});
+            } else {
+                console.log("Returning " + numResults + " to requester");
+                res.jsonp(items);
+            }
+        });
+    });
+};
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
